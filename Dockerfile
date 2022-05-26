@@ -29,7 +29,6 @@ RUN apk add --no-cache readline \
         gnu-libiconv
 ENV LD_PRELOAD /usr/lib/preloadable_libiconv.so
 ENV LD_LIBRARY_PATH /root
-ENV PATH="/root:${PATH}"
 WORKDIR /usr/local/bin
 VOLUME /mnt
 RUN ln -s /mnt/vpn_server.config vpn_server.config && \
