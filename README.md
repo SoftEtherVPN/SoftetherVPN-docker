@@ -18,18 +18,21 @@ It´s based on Alpine so resulting Image is kept as small as 15MB!
 
 ## Available Tags
 
-|||
-|stable||
-|latest||
+
+|Image|Description|
+|---|---|
+|softethervpn/vpnserver:stable|Latest stable release from https://github.com/SoftEtherVPN/SoftEtherVPN_Stable|
+|softethervpn/vpnserver:v4.39-9772-beta|Tagged build|
+|softethervpn/vpnserver:latest|Latest commits from https://github.com/SoftEtherVPN/SoftEtherVPN|
 
 
-You should always specify your wanted version like `toprock/softether:5.01.9671` or `toprock/softether:4.32.9731`
+You should always specify your wanted version like `softethervpn/vpnserver:5.02.5180`
 
 ## Usage docker run
 
 This will keep your config and Logfiles in the docker volume `softetherdata`
 
-`docker run -d --rm --name softether-vpn-server -v softetherdata:/mnt -p 443:443/tcp -p 992:992/tcp -p 1194:1194/udp -p 5555:5555/tcp -p 500:500/udp -p 4500:4500/udp -p 1701:1701/udp --cap-add NET_ADMIN toprock/softether`
+`docker run -d --rm --name softether-vpn-server -v softetherdata:/mnt -p 443:443/tcp -p 992:992/tcp -p 1194:1194/udp -p 5555:5555/tcp -p 500:500/udp -p 4500:4500/udp -p 1701:1701/udp --cap-add NET_ADMIN softethervpn/vpnserver:stable`
 
 
 ## Usage docker-compose
@@ -40,7 +43,7 @@ version: '3'
 
 services:
   softether:
-    image: toprock/softether:5.01.9672
+    image: softethervpn/vpnserver:stable
     cap_add:
       - NET_ADMIN
     restart: always

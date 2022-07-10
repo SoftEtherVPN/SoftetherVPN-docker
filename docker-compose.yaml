@@ -2,7 +2,7 @@ version: '3'
 
 services:
   softether:
-    image: toprock/softether
+    image: softethervpn/vpnserver:v4.39-9772-beta
     cap_add:
       - NET_ADMIN
     restart: always
