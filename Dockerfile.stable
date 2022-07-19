@@ -25,7 +25,8 @@ FROM alpine
 RUN apk add --no-cache readline \
         openssl \
         libsodium \
-        gnu-libiconv
+        gnu-libiconv\
+        iptables
 ENV LD_PRELOAD /usr/lib/preloadable_libiconv.so
 ENV LD_LIBRARY_PATH /root
 WORKDIR /usr/local/bin

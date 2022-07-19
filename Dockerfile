@@ -1,5 +1,18 @@
-FROM alpine as builder
+FROM alpine as base
 ARG GIT_TAG=5.02.5180
+ARG TARGETPLATFORM
+ARG TARGETARCH
+
+FROM base AS builder-amd64
+ENV TARGET_CONFIG_FLAGS ""
+
+FROM base AS builder-arm64
+ENV TARGET_CONFIG_FLAGS "--disable-sse2"
+
+FROM base AS builder-arm
+ENV TARGET_CONFIG_FLAGS "--disable-sse2"
+
+FROM builder-$TARGETARCH AS builder
 RUN mkdir /usr/local/src && apk add binutils --no-cache\
         build-base \
         readline-dev \
@@ -19,14 +32,15 @@ ENV USE_MUSL=YES
 RUN cd SoftEtherVPN &&\
 	git submodule init &&\
 	git submodule update &&\
-	./configure &&\
+        ./configure $TARGET_CONFIG_FLAGS &&\
 	make -C build
 
 FROM alpine
 RUN apk add --no-cache readline \
         openssl \
         libsodium \
-        gnu-libiconv
+        gnu-libiconv \
+        iptables
 ENV LD_PRELOAD /usr/lib/preloadable_libiconv.so
 ENV LD_LIBRARY_PATH /root
 WORKDIR /usr/local/bin
