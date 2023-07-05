@@ -1,9 +1,9 @@
-name: Docker Image CI ARM64
+name: Docker Image CI ARM64 Stable
 
 on:
   push:
     branches: 
-      - "master"
+      - "stable"
     tags:
       - '*'
   pull_request:
@@ -41,7 +41,7 @@ jobs:
         uses: docker/build-push-action@v3
         with:
           #context: "{{defaultContext}}:build" #might be used later if Dockerfile is somewhere else
-          file: ./Dockerfile
+          file: ./Dockerfile.stable
           push: ${{ github.event_name != 'pull_request' }}
           platforms: linux/amd64
           tags: ${{ steps.meta.outputs.tags }}
