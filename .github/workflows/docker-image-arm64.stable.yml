@@ -22,10 +22,10 @@ jobs:
         with:
           images: softethervpn/vpnserver-arm64
           tags: |
-            # set latest tag for default branch
-            type=raw,value=latest,enable={{is_default_branch}}
-            type=semver,pattern={{version}}
-            type=semver,pattern={{major}}.{{minor}}
+            # branch event
+            type=ref,event=branch
+            # tag event
+            type=ref,event=tag
       -
         name: Set up Docker Buildx
         uses: docker/setup-buildx-action@v2
