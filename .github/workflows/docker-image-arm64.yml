@@ -43,6 +43,6 @@ jobs:
           #context: "{{defaultContext}}:build" #might be used later if Dockerfile is somewhere else
           file: ./Dockerfile
           push: ${{ github.event_name != 'pull_request' }}
-          platforms: linux/amd64
+          platforms: linux/arm64,linux/amd64
           tags: ${{ steps.meta.outputs.tags }}
           labels: ${{ steps.meta.outputs.labels }}
