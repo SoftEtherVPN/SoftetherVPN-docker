@@ -2,7 +2,7 @@ version: '3'
 
 services:
   softether:
-    image: softethervpn/vpnserver:v4.39-9772-beta
+    image: softethervpn/vpnserver:v4.42-9798-rtm
     cap_add:
       - NET_ADMIN
     restart: always
@@ -19,6 +19,6 @@ services:
       - "/etc/localtime:/etc/localtime:ro"
       - "/etc/timezone:/etc/timezone:ro"
       - "./softether_data:/mnt"
-      - "./softether_log:/root/server_log"
-      - "./softether_packetlog:/root/packet_log"
-      - "./softether_securitylog:/root/security_log"
+      - "./softether_log:/usr/local/bin/server_log"
+      - "./softether_packetlog:/usr/local/bin/packet_log"
+      - "./softether_securitylog:/usr/local/bin/security_log"
