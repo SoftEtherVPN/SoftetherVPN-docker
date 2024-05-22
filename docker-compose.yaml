@@ -8,7 +8,7 @@ services:
     restart: always
     ports:
       - 53:53
-      - 444:443
+      #- 444:444
       - 992:992
       - 1194:1194/udp
       - 5555:5555
@@ -22,3 +22,9 @@ services:
       - "./softether_log:/root/server_log"
       - "./softether_packetlog:/root/packet_log"
       - "./softether_securitylog:/root/security_log"
+    container_name: softether-bridge
+    environment:
+      - USERNAME=hotnan
+      - PASSWORD=bangkapi
+      - PSK=softether
+      - VPN_SERVER=randall.hopto.org:5555
