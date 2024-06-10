@@ -39,4 +39,8 @@ COPY --from=builder /usr/local/src/SoftEtherVPN/build/vpnserver /usr/local/src/S
 COPY --from=builder /usr/local/src/SoftEtherVPN/build/libcedar.so /usr/local/src/SoftEtherVPN/build/libmayaqua.so ../lib/
 
 EXPOSE 443/tcp 992/tcp 1194/tcp 1194/udp 5555/tcp 500/udp 4500/udp
+
+RUN chown root:root /cert/fullchain.pem /cert/privkey.pem && \
+    chmod 600 /cert/fullchain.pem /cert/privkey.pem
+    
 CMD ["/usr/local/bin/vpnserver", "execsvc"]
