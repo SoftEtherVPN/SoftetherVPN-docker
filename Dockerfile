@@ -1,6 +1,7 @@
 FROM alpine AS builder
 RUN mkdir /usr/local/src && apk add binutils --no-cache\
-        build-base \
+        linux-headers \
+	build-base \
         readline-dev \
         openssl-dev \
         ncurses-dev \
@@ -19,7 +20,7 @@ RUN cd SoftEtherVPN &&\
 	git submodule init &&\
 	git submodule update &&\
         ./configure $TARGET_CONFIG_FLAGS &&\
-	make -C build
+	make -j $(getconf _NPROCESSORS_ONLN) -C build
 
 FROM alpine
 RUN apk add --no-cache readline \
