@@ -20,7 +20,7 @@ RUN cd SoftEtherVPN &&\
 	git submodule init &&\
 	git submodule update &&\
         ./configure $TARGET_CONFIG_FLAGS &&\
-	make -C build
+	make -j $(getconf _NPROCESSORS_ONLN) -C build
 
 FROM alpine
 RUN apk add --no-cache readline \
