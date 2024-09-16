@@ -1,6 +1,7 @@
 FROM alpine AS builder
 RUN mkdir /usr/local/src && apk add binutils --no-cache\
-        build-base \
+        linux-headers \
+	build-base \
         readline-dev \
         openssl-dev \
         ncurses-dev \
