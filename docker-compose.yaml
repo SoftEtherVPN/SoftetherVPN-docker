@@ -22,3 +22,4 @@ services:
       - "./softether_log:/root/server_log"
       - "./softether_packetlog:/root/packet_log"
       - "./softether_securitylog:/root/security_log"
+      # - "./adminip.txt:/usr/local/bin/adminip.txt:ro"
