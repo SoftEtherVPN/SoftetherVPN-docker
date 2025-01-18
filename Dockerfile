@@ -19,7 +19,7 @@ ENV USE_MUSL=YES
 RUN cd SoftEtherVPN &&\
 	git submodule init &&\
 	git submodule update &&\
-        ./configure $TARGET_CONFIG_FLAGS &&\
+        ./configure &&\
 	make -j $(getconf _NPROCESSORS_ONLN) -C build
 
 FROM alpine

@@ -1,6 +1,8 @@
 name: Docker Image CI ARM64 Stable
 
 on:
+  schedule:
+    - cron: "0 5 * * 1"  # Every Monday at 5:00 AM
   push:
     branches: 
       - "stable"
