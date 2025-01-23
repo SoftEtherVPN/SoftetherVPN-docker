@@ -1,4 +1,4 @@
-name: Docker vpnclient CI 
+name: Docker vpnclient ARM64
 
 on:
   schedule:
@@ -14,23 +14,20 @@ on:
   workflow_dispatch:
 
 jobs:
-  docker-vpnclient:
-    runs-on: ubuntu-latest
+  docker:
+    runs-on: ARM64
     steps:
       -
         name: Docker meta
         id: meta
-        uses: docker/metadata-action@v5
+        uses: docker/metadata-action@v4
         with:
-          images: softethervpn/vpnclient
+          images: softethervpn/vpnclient-arm64
           tags: |
             # set latest tag for default branch
             type=raw,value=latest,enable={{is_default_branch}}
             type=semver,pattern={{version}}
             type=semver,pattern={{major}}.{{minor}}
-      -
-        name: Set up QEMU
-        uses: docker/setup-qemu-action@v3
       -
         name: Set up Docker Buildx
         uses: docker/setup-buildx-action@v3
@@ -47,8 +44,7 @@ jobs:
         with:
           #context: "{{defaultContext}}:build" #might be used later if Dockerfile is somewhere else
           file: ./Dockerfile
-          target: vpnclient
           push: ${{ github.event_name != 'pull_request' }}
-          platforms: linux/amd64,linux/arm64,linux/arm/v7
+          platforms: linux/arm64
           tags: ${{ steps.meta.outputs.tags }}
           labels: ${{ steps.meta.outputs.labels }}
