@@ -1,16 +1,6 @@
 name: Docker Image CI Stable
 
 on:
-  schedule:
-    - cron: "0 5 * * 1"  # Every Monday at 5:00 AM
-  push:
-    branches: 
-      - "stable"
-    tags:
-      - '*'
-  pull_request:
-    branches:
-      - 'main'
   workflow_dispatch:
 
 jobs:
