@@ -34,6 +34,12 @@ This will keep your config and Logfiles in the docker volume `softetherdata`
 
 `docker run -d --rm --name softether-vpn-server -v softetherdata:/mnt -p 443:443/tcp -p 992:992/tcp -p 1194:1194/udp -p 5555:5555/tcp -p 500:500/udp -p 4500:4500/udp -p 1701:1701/udp --cap-add NET_ADMIN softethervpn/vpnserver:stable`
 
+## Port requirements
+
+As there are different operating modes for SoftetherVPN there is a variety of ports that might or might not be needed.
+For operation with Softether Clients at least 443, 992 or 5555 is needed.
+See https://www.softether.org/4-docs/1-manual/1/1.6 for reference on the Softether ports.
+Others are commented out in the docker-compose example.
 
 ## Usage docker-compose
 
@@ -43,27 +49,25 @@ version: '3'
 
 services:
   softether:
-    image: softethervpn/vpnserver:stable
+    image: softethervpn/vpnserver:latest
     cap_add:
       - NET_ADMIN
     restart: always
     ports:
-      - 53:53
-      - 443:443
-      - 992:992
-      - 1194:1194/udp
-      - 5555:5555
-      - 500:500/udp
-      - 4500:4500/udp
-      - 1701:1701/udp
+      - # 53:53         #DNS tunneling
+      - 443:443         #Management and HTTPS tunneling
+      - 992:992         #HTTPS tunneling
+      - # 1194:1194/udp #OpenVPN 
+      - 5555:5555       #HTTPS tunneling
+      - # 500:500/udp   #IPsec/L2TP
+      - # 4500:4500/udp #IPsec/L2TP
+      - # 1701:1701/udp #IPsec/L2TP
     volumes:
       - "/etc/localtime:/etc/localtime:ro"
       - "/etc/timezone:/etc/timezone:ro"
-      - "./softether_data:/mnt"
-      - "./softether_log:/root/server_log"
-      - "./softether_packetlog:/root/packet_log"
-      - "./softether_securitylog:/root/security_log"
-      # - "./adminip.txt:/usr/local/bin/adminip.txt:ro"
+      - "./softether_data:/var/lib/softether"
+      - "./softether_log:/var/log/softether"
+      # - "./adminip.txt:/var/lib/softether/adminip.txt:ro"
 ```
 
 ### Use vpncmd
@@ -75,4 +79,4 @@ With newer releases vpncmd is directly in the container so you can use it to con
 
 ## Building 
 
-` docker build -t softethevpn:latest .`
+` docker build --target vpnclient -t softethevpn:latest .`
