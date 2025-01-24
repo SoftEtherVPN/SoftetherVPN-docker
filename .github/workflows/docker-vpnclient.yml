@@ -50,6 +50,7 @@ jobs:
           file: ./Dockerfile
           target: vpnclient
           push: ${{ github.event_name != 'pull_request' }}
-          platforms: linux/amd64,linux/arm64,linux/arm/v7
+          #Multi-platform build sadly not supported by BLAKE2
+          #platforms: linux/amd64,linux/arm64,linux/arm/v7
           tags: ${{ steps.meta.outputs.tags }}
           labels: ${{ steps.meta.outputs.labels }}
