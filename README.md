@@ -43,7 +43,13 @@ Others are commented out in the docker-compose example.
 
 ## Usage docker-compose
 
-The same command can be achieved by docker-compose, the docker compose file is in the repository
+The same command can be achieved by docker-compose, the docker compose file is in the repository.
+You can specify the respective docker-compose.yaml like so: 
+
+`docker-compose -f docker-compose.vpnclient.yaml up -d`
+
+By default the docker-compose.yaml is used: 
+
 ```
 version: '3'
 
@@ -54,14 +60,14 @@ services:
       - NET_ADMIN
     restart: always
     ports:
-      - # 53:53         #DNS tunneling
+      #- 53:53         #DNS tunneling
       - 443:443         #Management and HTTPS tunneling
-      - 992:992         #HTTPS tunneling
-      - # 1194:1194/udp #OpenVPN 
-      - 5555:5555       #HTTPS tunneling
-      - # 500:500/udp   #IPsec/L2TP
-      - # 4500:4500/udp #IPsec/L2TP
-      - # 1701:1701/udp #IPsec/L2TP
+      #- 992:992         #HTTPS tunneling
+      #- 1194:1194/udp #OpenVPN 
+      #- 5555:5555       #HTTPS tunneling
+      #- 500:500/udp   #IPsec/L2TP
+      #- 4500:4500/udp #IPsec/L2TP
+      #- 1701:1701/udp #IPsec/L2TP
     volumes:
       - "/etc/localtime:/etc/localtime:ro"
       - "/etc/timezone:/etc/timezone:ro"
