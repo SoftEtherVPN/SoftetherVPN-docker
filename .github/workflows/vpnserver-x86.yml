@@ -1,4 +1,4 @@
-name: Docker vpnclient ARM64
+name: vpnserver x86
 
 on:
   schedule:
@@ -15,14 +15,14 @@ on:
 
 jobs:
   docker:
-    runs-on: ARM64
+    runs-on: ubuntu-latest
     steps:
       -
         name: Docker meta
         id: meta
-        uses: docker/metadata-action@v4
+        uses: docker/metadata-action@v5
         with:
-          images: softethervpn/vpnclient-arm64
+          images: softethervpn/vpnserver
           tags: |
             # set latest tag for default branch
             type=raw,value=latest,enable={{is_default_branch}}
@@ -45,7 +45,8 @@ jobs:
         with:
           #context: "{{defaultContext}}:build" #might be used later if Dockerfile is somewhere else
           file: ./Dockerfile
+          target: vpnserver
           push: ${{ github.event_name != 'pull_request' }}
-          platforms: linux/arm64
+          platforms: linux/amd64
           tags: ${{ steps.meta.outputs.tags }}
           labels: ${{ steps.meta.outputs.labels }}
