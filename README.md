@@ -78,10 +78,25 @@ services:
 
 ### Use vpncmd
 
-With newer releases vpncmd is directly in the container so you can use it to configure the vpnserver. You can can run it once the container is running :
+With newer releases vpncmd is directly in the container so you can use it to configure vpn. You can can run it once the container is running :
 
-`docker exec -it softether-vpn-server vpncmd`
+`docker exec -it softether-vpn-server vpncmd localhost`
+example to configure a vpnclient
 
+```
+docker exec -it softether-vpn-server vpncmd localhost /client
+
+VPN Client> AccountSet homevpn /SERVER:192.168.1.1:443 /HUB:VPN
+VPN Client> AccountPasswordSet homevpn /PASSWORD:verysecurepassword /TYPE:standard
+VPN Client> AccountConnect homevpn
+
+#Automatically connect once container starts
+VPN Client> AccountStartupSet homevpn
+
+#Checking State
+VPN Client> AccountStatusGet homevpn
+
+```
 
 ## Building 
 

@@ -3,6 +3,8 @@ version: '3'
 services:
   softether:
     image: softethervpn/vpnclient:latest
+    devices:
+      - /dev/net/tun:/dev/net/tun
     cap_add:
       - NET_ADMIN
     restart: always
