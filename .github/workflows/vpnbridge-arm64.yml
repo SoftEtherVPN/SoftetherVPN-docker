@@ -1,0 +1,52 @@
+name: vpnclient ARM64
+
+on:
+  schedule:
+    - cron: "0 6 * * 1"  # Every Monday at 6:00 AM
+  push:
+    branches: 
+      - "master"
+    tags:
+      - '*'
+  pull_request:
+    branches:
+      - 'main'
+  workflow_dispatch:
+
+jobs:
+  docker:
+    runs-on: ARM64
+    steps:
+      -
+        name: Docker meta
+        id: meta
+        uses: docker/metadata-action@v5
+        with:
+          images: softethervpn/vpnclient-arm64
+          tags: |
+            # set latest tag for default branch
+            type=raw,value=latest,enable={{is_default_branch}}
+            type=ref,event=pr
+            type=semver,pattern={{version}}
+            type=semver,pattern={{major}}.{{minor}}
+      -
+        name: Set up Docker Buildx
+        uses: docker/setup-buildx-action@v3
+      -
+        name: Login to DockerHub
+        if: github.event_name != 'pull_request'
+        uses: docker/login-action@v3
+        with:
+          username: ${{ secrets.DOCKERHUB_USERNAME }}
+          password: ${{ secrets.DOCKERHUB_TOKEN }}
+      -
+        name: Build and push
+        uses: docker/build-push-action@v6
+        with:
+          #context: "{{defaultContext}}:build" #might be used later if Dockerfile is somewhere else
+          file: ./Dockerfile
+          target: vpnbridge
+          push: ${{ github.event_name != 'pull_request' }}
+          platforms: linux/arm64
+          tags: ${{ steps.meta.outputs.tags }}
+          labels: ${{ steps.meta.outputs.labels }}
