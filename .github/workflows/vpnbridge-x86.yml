@@ -1,4 +1,4 @@
-name: vpnclient x86
+name: vpnbridge x86
 
 on:
   schedule:
@@ -14,7 +14,7 @@ on:
   workflow_dispatch:
 
 jobs:
-  docker-vpnclient:
+  docker-vpnbridge:
     runs-on: ubuntu-latest
     steps:
       -
@@ -22,7 +22,7 @@ jobs:
         id: meta
         uses: docker/metadata-action@v5
         with:
-          images: softethervpn/vpnclient
+          images: softethervpn/vpnbridge
           tags: |
             # set latest tag for default branch
             type=raw,value=latest,enable={{is_default_branch}}

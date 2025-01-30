@@ -1,4 +1,4 @@
-name: vpnclient ARM64
+name: vpnbridge ARM64
 
 on:
   schedule:
@@ -22,7 +22,7 @@ jobs:
         id: meta
         uses: docker/metadata-action@v5
         with:
-          images: softethervpn/vpnclient-arm64
+          images: softethervpn/vpnbridge-arm64
           tags: |
             # set latest tag for default branch
             type=raw,value=latest,enable={{is_default_branch}}
