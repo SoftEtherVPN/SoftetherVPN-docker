@@ -18,10 +18,10 @@ RUN git clone https://github.com/SoftEtherVPN/SoftEtherVPN.git
 ENV USE_MUSL=YES
 ENV CMAKE_FLAGS="-DSE_PIDDIR=/run/softether -DSE_LOGDIR=/var/log/softether -DSE_DBDIR=/var/lib/softether"
 RUN cd SoftEtherVPN &&\
-	git submodule init &&\
-	git submodule update &&\
+        git submodule init &&\
+        git submodule update &&\
         ./configure &&\
-	make -j $(getconf _NPROCESSORS_ONLN) -C build
+        make -j $(getconf _NPROCESSORS_ONLN) -C build
 
 FROM alpine AS base
 RUN apk add --no-cache readline \
