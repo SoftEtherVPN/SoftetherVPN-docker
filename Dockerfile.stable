@@ -1,5 +1,5 @@
-FROM alpine as builder
-ARG GIT_TAG=v4.43-9799-beta
+FROM alpine:3.20 AS builder
+ARG GIT_TAG=v4.44-9807-rtm
 RUN mkdir /usr/local/src && apk add binutils --no-cache\
         build-base \
         readline-dev \
@@ -11,15 +11,15 @@ RUN mkdir /usr/local/src && apk add binutils --no-cache\
         libsodium-dev \
         gnu-libiconv 
 
-ENV LD_PRELOAD /usr/lib/preloadable_libiconv.so
+ENV LD_PRELOAD=/usr/lib/preloadable_libiconv.so
 WORKDIR /usr/local/src
 RUN git clone -b ${GIT_TAG} https://github.com/SoftEtherVPN/SoftEtherVPN_Stable.git
 ENV USE_MUSL=YES
 RUN cd SoftEtherVPN_Stable &&\
-	git submodule init &&\
-	git submodule update &&\
-	./configure &&\
-	make
+        git submodule init &&\
+        git submodule update &&\
+        ./configure &&\
+        make -j $(getconf _NPROCESSORS_ONLN)
 
 FROM alpine
 RUN apk add --no-cache readline \
@@ -27,8 +27,8 @@ RUN apk add --no-cache readline \
         libsodium \
         gnu-libiconv\
         iptables
-ENV LD_PRELOAD /usr/lib/preloadable_libiconv.so
-ENV LD_LIBRARY_PATH /root
+ENV LD_PRELOAD=/usr/lib/preloadable_libiconv.so
+ENV LD_LIBRARY_PATH=/root
 WORKDIR /usr/local/bin
 VOLUME /mnt
 RUN ln -s /mnt/vpn_server.config vpn_server.config && \
